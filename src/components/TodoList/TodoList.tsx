@@ -23,6 +23,12 @@ export const TodoList: React.FC<PropsTodoList> = ({
   onDelete,
   tempTitle,
 }) => {
+  const handleSubmit = (e: React.FocusEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    onEdited(0);
+  };
+
   return (
     <section className="todoapp__main" data-cy="TodoList">
       {/* This is a completed todo */}
@@ -43,12 +49,7 @@ export const TodoList: React.FC<PropsTodoList> = ({
             </label>
 
             {isEdited === todo.id ? (
-              <form
-                onSubmit={e => {
-                  e.preventDefault();
-                  onEdited(0);
-                }}
-              >
+              <form onSubmit={handleSubmit}>
                 <input
                   data-cy="TodoTitleField"
                   type="text"
@@ -91,7 +92,7 @@ export const TodoList: React.FC<PropsTodoList> = ({
         ))}
 
       {isCreating && (
-        <div data-cy="Todo" className="todo">
+        <div data-cy="Todo" className="todo" key="temp-todo">
           <label className="todo__status-label">
             <input type="checkbox" className="todo__status" />
           </label>

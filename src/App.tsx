@@ -8,16 +8,8 @@ import { Footer } from './components/Footer/Footer';
 import { ErrorNotif } from './components/ErrorNotif/ErrorNotif';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
-
-export type TodosError =
-  | 'Unable to load todos'
-  | 'Title should not be empty'
-  | 'Unable to add a todo'
-  | 'Unable to delete a todo'
-  | 'Unable to update a todo'
-  | null;
-
-export type Filter = 'all' | 'active' | 'completed';
+import { TodosError } from './types/TodoError';
+import { Filter } from './types/Filter';
 
 export const App: React.FC = () => {
   // #region States
@@ -115,7 +107,10 @@ export const App: React.FC = () => {
       })
       .finally(() => {
         setIsCreating(false);
-        inputRef.current?.focus();
+
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 0);
       });
   };
 

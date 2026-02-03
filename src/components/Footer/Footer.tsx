@@ -1,7 +1,8 @@
 import React from 'react';
-import { Filter } from '../../App';
 import { Todo } from '../../types/Todo';
 import cn from 'classnames';
+import { Filter } from '../../types/Filter';
+import { Status } from '../../types/Status';
 
 interface PropsFooter {
   todos: Todo[];
@@ -29,34 +30,19 @@ export const Footer: React.FC<PropsFooter> = ({
 
           {/* Active link should have the 'selected' class */}
           <nav className="filter" data-cy="Filter">
-            <a
-              href="#/"
-              className={cn('filter__link', { selected: filter === 'all' })}
-              data-cy="FilterLinkAll"
-              onClick={() => onFilter('all')}
-            >
-              All
-            </a>
-
-            <a
-              href="#/active"
-              className={cn('filter__link', { selected: filter === 'active' })}
-              data-cy="FilterLinkActive"
-              onClick={() => onFilter('active')}
-            >
-              Active
-            </a>
-
-            <a
-              href="#/completed"
-              className={cn('filter__link', {
-                selected: filter === 'completed',
-              })}
-              data-cy="FilterLinkCompleted"
-              onClick={() => onFilter('completed')}
-            >
-              Completed
-            </a>
+            {Object.values(Status).map(statusValue => (
+              <a
+                key={statusValue}
+                href={`#/${statusValue === Status.All ? '' : statusValue}`}
+                className={cn('filter__link', {
+                  selected: filter === statusValue,
+                })}
+                data-cy={`FilterLink${statusValue.charAt(0).toUpperCase() + statusValue.slice(1)}`}
+                onClick={() => onFilter(statusValue)}
+              >
+                {statusValue.charAt(0).toUpperCase() + statusValue.slice(1)}
+              </a>
+            ))}
           </nav>
 
           {/* this button should be disabled if there are no completed todos */}
